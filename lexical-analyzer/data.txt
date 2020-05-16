@@ -1,4 +1,6 @@
 {Test Token}
+{uu{xx}}
+float := 1.456;
 if id = 0 then
     read(id);
 else

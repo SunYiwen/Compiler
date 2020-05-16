@@ -81,5 +81,3 @@ module.exports = function getToken(line) {
     }
     return {tokens, flag};
 };
-
-

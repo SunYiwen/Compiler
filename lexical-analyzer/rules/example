@@ -1,0 +1,43 @@
+0 program --> stmt-sequence
+1 stmt-sequence --> statement stmt'
+2 stmt' --> ;statement stmt'
+3 stmt' --> $
+4 statement --> if-stmt
+5 statement --> repeat-stmt
+6 statement --> assign-stmt
+7 statement --> read-stmt
+8 statement --> write-stmt
+9 statement --> While-stmt
+10 statement --> Dowhile-stmt
+11 statement --> for-stmt
+12 if-stmt --> if exp then stmt-sequence else-part' end
+13 else-part' --> else stmt-sequence
+14 else-part' --> $
+15 repeat-stmt --> repeat stmt-sequence until exp
+16 assign-stmt --> identifier := exp
+17 read-stmt --> read identifier
+18 write-stmt --> write exp
+19 exp --> simple-exp cmp-exp'
+20 cmp-exp' --> comparison-op simple-exp
+21 cmp-exp' --> $
+22 comparison-op --> <
+23 comparison-op --> =
+24 simple-exp --> term term'
+25 term' --> addop term
+26 term' --> $
+27 addop --> +
+28 addop --> -
+29 term --> factor factor'
+30 factor' --> mulop factor
+31 factor' --> $
+32 mulop --> *
+33 mulop --> /
+34 mulop --> %
+35 factor --> (exp)
+36 factor --> number
+37 factor --> identifier
+38 While-stmt --> while exp do  stmt-sequence  endwhile
+39 Dowhile-stmt --> do stmt-sequence  while  exp
+40 for-stmt --> for identifier := simple-exp for-choose'
+41 for-choose' --> to simple-exp  do stmt-sequence enddo
+42 for-choose' --> downto simple-exp do stmt-sequence enddo

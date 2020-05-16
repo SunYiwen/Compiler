@@ -1,0 +1,55 @@
+1:{Test Token}
+2:{uu{xx}}
+	the 2 has wrong!!!
+3:float := 1.456;
+	3:ID,float
+	3:specialWord,:=
+	3:NUM,1.456
+	3:specialWord,;
+4:if id = 0 then
+	4:reserved word,if
+	4:ID,id
+	4:specialWord,=
+	4:NUM,0
+	4:reserved word,then
+5:read(id);
+	5:reserved word,read
+	5:specialWord,(
+	5:ID,id
+	5:specialWord,)
+	5:specialWord,;
+6:else
+	6:reserved word,else
+7:write(id);
+	7:reserved word,write
+	7:specialWord,(
+	7:ID,id
+	7:specialWord,)
+	7:specialWord,;
+8:endif;
+	8:ID,endif
+	8:specialWord,;
+9:{Test Error}
+10:错误^_^
+	the 10 has wrong!!!
+11:{Test Repeat}
+12:num := 20;
+	12:ID,num
+	12:specialWord,:=
+	12:NUM,20
+	12:specialWord,;
+13:repeat
+	13:reserved word,repeat
+14:num := id - 1;
+	14:ID,num
+	14:specialWord,:=
+	14:ID,id
+	14:specialWord,-
+	14:NUM,1
+	14:specialWord,;
+15:until num<10;
+	15:reserved word,until
+	15:ID,num
+	15:specialWord,<
+	15:NUM,10
+	15:specialWord,;
