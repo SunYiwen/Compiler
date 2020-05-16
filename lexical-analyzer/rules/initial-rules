@@ -1,4 +1,4 @@
-program --> stmt-sequence
+program --> stmt-sequence(program为开始符号)
 
 stmt-sequence --> stmt-sequence ; statement | statement (存在左递归)
 stmt-sequence --> statement stmt'
@@ -44,4 +44,4 @@ factor --> (exp) | number | identifier
 
 终结符号集合：; if then end else repeat until identifier := read write < = + - * / ( ) number
 非终结符号集合： program stmt-sequence stmt' statement if-stmt else-part' repeat-stmt assign-stmt write-stmt exp comparison-op
-simple-exp term' addop term factor' nulop factor
+simple-exp term' addop term factor' mulop factor

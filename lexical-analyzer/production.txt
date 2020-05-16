@@ -1,0 +1,29 @@
+program --> stmt-sequence
+stmt-sequence --> stmt-sequence ; statement
+stmt-sequence --> statement
+statement --> if-stmt
+statement --> repeat-stmt
+statement --> assign-stmt
+statement --> read-stmt
+statement --> write-stmt
+if-stmt --> if exp then stmt-sequence end
+if-stmt --> if exp then stmt-sequence else stmt-sequence end
+repeat-stmt --> repeat stmt-sequence until exp
+assign-stmt --> identifier := exp
+read-stmt --> read identifier
+write-stmt --> write exp
+exp --> simple-exp comparison-op simple-exp
+exp --> simple-exp
+comparison-op --> <
+comparison-op --> =
+simple-exp --> simple-exp addop term
+simple-exp --> term
+addop --> +
+addop --> -
+term --> term mulop factor
+term --> factor
+mulop --> *
+mulop --> /
+factor --> ( exp )
+factor --> number
+factor --> identifier
