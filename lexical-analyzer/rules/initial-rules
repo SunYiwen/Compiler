@@ -45,3 +45,5 @@ factor --> (exp) | number | identifier
 终结符号集合：; if then end else repeat until identifier := read write < = + - * / ( ) number
 非终结符号集合： program stmt-sequence stmt' statement if-stmt else-part' repeat-stmt assign-stmt write-stmt exp comparison-op
 simple-exp term' addop term factor' mulop factor
+
+"statement", "if-stmt", "repeat-stmt", "repeat-stmt", "assign-stmt", "write-stmt", "exp", "comparison-op", "simple-exp", "term'", "addop", "term", "factor'", "mulop", "factor"
