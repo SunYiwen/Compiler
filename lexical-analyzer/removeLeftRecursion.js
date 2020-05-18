@@ -1,6 +1,6 @@
 // 消除左递归算法
 module.exports = function removeLeftRecursion(productions) {
-    let VN = ["stmt-sequence", "program", "statement", "if-stmt", "repeat-stmt", "repeat-stmt", "assign-stmt", "write-stmt", "exp", "comparison-op", "simple-exp", "term", "addop", "factor", "mulop"];
+    let VN = ["program", "stmt-sequence", "statement", "if-stmt", "else-part'",  "repeat-stmt", "assign-stmt", "read-stmt", "write-stmt", "exp", "comparison-op", "simple-exp", "term", "addop", "factor", "mulop"];
     for (let i = 0; i < VN.length; i++) {
         let iProductions = productions.get(VN[i]); // 获取以Ai开头的产生式
         // console.log('iProductions',iProductions);

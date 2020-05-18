@@ -6,8 +6,8 @@ statement --> repeat-stmt
 statement --> assign-stmt
 statement --> read-stmt
 statement --> write-stmt
-if-stmt --> if exp then stmt-sequence end
-if-stmt --> if exp then stmt-sequence else stmt-sequence end
+if-stmt --> if exp then stmt-sequence else-part' end
+else-part' --> else stmt-sequence | $
 repeat-stmt --> repeat stmt-sequence until exp
 assign-stmt --> identifier := exp
 read-stmt --> read identifier
