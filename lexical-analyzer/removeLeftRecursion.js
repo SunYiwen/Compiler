@@ -40,7 +40,7 @@ module.exports = function removeLeftRecursion(productions) {
                 if (iProductions[k][0] === VN[i]) { // 存在左递归现象
                     let newBegin = VN[i] + "'"; // 构建新产生式的左边
                     let newProductions = [];
-                    newProductions.push(['$']); // 表示空元素
+                    newProductions.push(['ε']); // 表示空元素
                     for (let iproduction of iProductions) {
                         if (iproduction[0] === VN[i]) {
                             //console.log('iproduction', iproduction);
