@@ -35,7 +35,7 @@ addop --> + | -
 
 term --> term mulop factor | factor (存在左递归)
 term --> factor factor'
-factor' --> nulop factor factor' | $
+factor' --> mulop factor factor' | $
 
 mulop --> * | /
 

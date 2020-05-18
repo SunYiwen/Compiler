@@ -2,8 +2,8 @@ const readline = require('readline');
 const fs = require('fs');
 const tokenizer = require('./tokenizer');
 
-const fileReadName = './data.txt';
-const fWriteName = './tokens.txt';
+const fileReadName = './data/data.txt';
+const fWriteName = './data/tokens.txt';
 const fRead = fs.createReadStream(fileReadName);
 const fWrite = fs.createWriteStream(fWriteName);
 

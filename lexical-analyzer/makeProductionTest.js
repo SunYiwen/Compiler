@@ -1,7 +1,7 @@
 const readline = require('readline');
 const fs = require('fs');
-const fileReadName = './production.txt';
-const removeLeftRecursion = require('./removeTest2');
+const fileReadName = './data/production.txt';
+const removeLeftRecursion = require('./removeLeftRecursion');
 const fRead = fs.createReadStream(fileReadName);
 const productions = new Map();
 /*
@@ -15,9 +15,7 @@ let objReadline = readline.createInterface({
 let enableWriteIndex = true;
 fRead.on('end', () => {
     enableWriteIndex = false;
-    // console.log(productions);
-    //let ans = removeLeftRecursion(productions);
-    console.log(productions);
+    //console.log(productions);
     console.log(removeLeftRecursion(productions)); //行读取后的回调函数
 });
 let index = 1;
