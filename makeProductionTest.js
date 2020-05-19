@@ -3,6 +3,7 @@ const fs = require('fs');
 const fileReadName = './data/production.txt';
 const removeLeftRecursion = require('./removeLeftRecursion');
 const getFirstCollection = require('./getFirstCollection');
+const getFollowCollection = require('./getFollowCollection');
 const fRead = fs.createReadStream(fileReadName);
 const productions = new Map();
 /*
@@ -17,10 +18,10 @@ let enableWriteIndex = true;
 fRead.on('end', () => {
     enableWriteIndex = false;
     //console.log(productions);
-    let ans  = removeLeftRecursion(productions);
-    console.log(ans); //行读取后的回调函数
-    ans = getFirstCollection(ans);
-    console.log(ans);
+    let ans = removeLeftRecursion(productions);
+    let First = getFirstCollection(ans);
+    let Follow =  getFollowCollection(First, ans);
+    console.log(Follow);
 });
 let index = 1;
 

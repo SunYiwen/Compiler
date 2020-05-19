@@ -7,7 +7,8 @@ statement --> assign-stmt
 statement --> read-stmt
 statement --> write-stmt
 if-stmt --> if exp then stmt-sequence else-part' end
-else-part' --> else stmt-sequence | $
+else-part' --> else stmt-sequence
+else-part' --> ε
 repeat-stmt --> repeat stmt-sequence until exp
 assign-stmt --> identifier := exp
 read-stmt --> read identifier

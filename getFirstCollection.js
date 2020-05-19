@@ -11,6 +11,9 @@ module.exports = function getFirstCollection(productions) {
     for (let i = 0; i < VN.length; i++) {
         First.set(VN[i], [...getVNFirst(VN[i], productions)]);
     }
+    for (let i = 0; i < VT.length; i++) {
+        First.set(VT[i], [...getVNFirst(VT[i], productions)]);
+    }
 
     return First;
 };
