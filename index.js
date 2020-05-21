@@ -14,8 +14,10 @@ let objReadline = readline.createInterface({
 let enableWriteIndex = true;
 fRead.on('end', () => {
     enableWriteIndex = false;
+    console.log(Tokens);
 });
 let index = 1;
+let Tokens = [];
 
 objReadline.on('line', (line)=>{
     if (enableWriteIndex && line) { // 文件没有读完并且当前行不为空
@@ -24,6 +26,7 @@ objReadline.on('line', (line)=>{
         if (tokens.length !== 0) {
             if (!wrongFlag) {
                 for (let token of tokens) {
+                    Tokens.push(token);
                     fWrite.write('\t' + index + ':' + token.type + ',' + token.value + '\n');
                 }
             } else {

@@ -21,12 +21,12 @@ module.exports = function tokenizer(input, lineNumber) {
             }
             if (reservedWord.has(value)) {
                 tokens.push({
-                    type: 'reserved word',
+                    type: 'reservedWord',
                     value: value
                 });
             } else {
                 tokens.push({
-                    type: 'ID',
+                    type: 'identifier',
                     value: value
                 });
             }
@@ -52,7 +52,7 @@ module.exports = function tokenizer(input, lineNumber) {
                 }
             }
             tokens.push({
-                type: 'NUM',
+                type: 'number',
                 value: Number(value)
             });
             continue;

@@ -1,7 +1,10 @@
 let VN = ["program", "stmt-sequence", "statement", "if-stmt", "else-part'",  "repeat-stmt", "assign-stmt", "read-stmt", "write-stmt", "exp", "comparison-op", "simple-exp", "term", "addop", "factor", "mulop", "stmt-sequence'", "simple-exp'", "term'"];
 let VT = ["if", "then", "end", "else", "repeat", "until", "identifier", ":=", "read", "write", "<", "=", "+", "-", "*", "/", "(", ")", "number", "$", ";"];
 // let VN = ['E', "E'", "T'", 'T', 'F'];
-// let VT = ['+', 'a', '(', ')', '*', '$'];
+// let VT = ['+', 'identifier', '(', ')', '*', '$'];
+/*
+构建预测分析表
+ */
 module.exports = function makePredictiveAnalysisTable(First, Follow, Productions) {
     let map = {};
     for (let i = 0; i < VN.length; i++) { // 初始化map
@@ -10,8 +13,8 @@ module.exports = function makePredictiveAnalysisTable(First, Follow, Productions
             map[VN[i]][VT[j]] = '#'; // 置空标志，预留错误位置
         }
     }
-    for (let i = 0; i < Productions.length; i++) {
-        if (Productions[i].value[0] === 'ε') {
+    for (let i = 0; i < Productions.length; i++) { // 对每一个产生式扫描
+        if (Productions[i].value[0] === 'ε') { // 如果产生式右部为空，直接加入产生式左边的Follow集合
             for (let item of Follow.get(Productions[i].key)) {
                 map[Productions[i].key][item] = i;
             }
@@ -19,7 +22,7 @@ module.exports = function makePredictiveAnalysisTable(First, Follow, Productions
         }
         let begin = 0;
         //console.log('production', Productions[i]);
-        let first = First.get(Productions[i].value[begin]);
+        let first = First.get(Productions[i].value[begin]); // 逐个扫面产生式的右边的元素，如果一个元素的First集合中没有空元素，则结束加入。如果存在空元素，则继续扫描。
         // console.log('value', Productions[i].value[0]);
         // console.log('first', first);
         while(begin < Productions[i].value.length) {
@@ -27,7 +30,7 @@ module.exports = function makePredictiveAnalysisTable(First, Follow, Productions
             for (let fi of first) {
                 //console.log('fi',fi);
                 if (fi !== 'ε') {
-                    map[Productions[i].key][fi] = i;
+                    map[Productions[i].key][fi] = i; // 将first集合中非空的元素
                 } else {
                     flag = true;
                 }
@@ -37,19 +40,18 @@ module.exports = function makePredictiveAnalysisTable(First, Follow, Productions
             }
             first = First.get(Productions[i].value[++begin]);
         }
-        if (begin === Productions[i].length) { // 最后一个元素的First集合有空元素
+        if (begin === Productions[i].length) { // 最后一个元素的First集合有空元素，那么需要加入左边元素的Follow集合
             let follow = Follow.get(Productions[i].key);
             for (let fo of follow) {
                 map[Productions[i].key][fo] = i;
-                if (fo === '$') {
-                    map[Productions[i].key]['$'] = i;
-                }
+                // if (fo === '$') {
+                //     map[Productions[i].key]['$'] = i;
+                // }
             }
         }
     }
     return map;
-
-}
+};
 // let First = new Map();
 // First.set('E', ['(', 'a']);
 // First.set("E'", ['+', 'ε']);
