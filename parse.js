@@ -71,11 +71,11 @@ module.exports = function parse(tokens, map, productions) {
         } else if (VTSet.has(top)) {
             console.log('top1', top);
             console.log('ip2', ip);
-            throw new Error(); // 抛出错误
+            throw new Error('不匹配的终结符号'); // 抛出错误
         } else if (map[top][ip.type] === '#') {
             console.log('toptest', top);
             console.log('type', ip.type);
-            throw new Error(); // 抛出错误
+            throw new Error('产生式不存在'); // 抛出错误
         } else if (map[top][ip.type] !== '#') {
             let production = productions[map[top][ip.type]];
             console.log('规则', production);
