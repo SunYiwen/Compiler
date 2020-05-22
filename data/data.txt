@@ -1,16 +1,8 @@
-{Test Token}
-{uu{xx}}
-float := 1.456;
 if id = 0 then
-    read(id);
+    read id;
 else
     write(id);
-    endif;
-
-{Test Error}
-错误^_^
-
-{Test Repeat}
+end;
 num := 20;
 repeat
     num := id - 1;

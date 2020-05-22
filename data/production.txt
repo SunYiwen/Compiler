@@ -6,6 +6,7 @@ statement --> repeat-stmt
 statement --> assign-stmt
 statement --> read-stmt
 statement --> write-stmt
+statement --> ε
 if-stmt --> if exp then stmt-sequence else-part' end
 else-part' --> else stmt-sequence
 else-part' --> ε
@@ -13,8 +14,9 @@ repeat-stmt --> repeat stmt-sequence until exp
 assign-stmt --> identifier := exp
 read-stmt --> read identifier
 write-stmt --> write exp
-exp --> simple-exp comparison-op simple-exp
-exp --> simple-exp
+exp --> simple-exp cmp-exp'
+cmp-exp' --> comparison-op simple-exp
+cmp-exp' --> ε
 comparison-op --> <
 comparison-op --> =
 simple-exp --> simple-exp addop term

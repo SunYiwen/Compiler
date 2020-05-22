@@ -1,7 +1,10 @@
 const readline = require('readline');
 const fs = require('fs');
 const tokenizer = require('./tokenizer');
-
+const table = require('./data/table.json'); // 预测分析表
+const parser = require('./parse');
+const productions = require('./data/productions');
+const parse = require('./parse');
 const fileReadName = './data/data.txt';
 const fWriteName = './data/tokens.txt';
 const fRead = fs.createReadStream(fileReadName);
@@ -14,7 +17,15 @@ let objReadline = readline.createInterface({
 let enableWriteIndex = true;
 fRead.on('end', () => {
     enableWriteIndex = false;
-    console.log(Tokens);
+    Tokens.push({ // 手动添加终结符号
+        type:'$',
+        value: '$'
+    });
+    //console.log(Tokens);
+    //console.log(table);
+    //console.log(productions);
+    parse(Tokens, table, productions);
+
 });
 let index = 1;
 let Tokens = [];

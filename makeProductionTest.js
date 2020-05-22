@@ -1,11 +1,13 @@
 const readline = require('readline');
 const fs = require('fs');
 const fileReadName = './data/production.txt';
+const fWriteName = './data/table.json';
 const removeLeftRecursion = require('./removeLeftRecursion');
 const getFirstCollection = require('./getFirstCollection');
 const getFollowCollection = require('./getFollowCollection');
 const makePredictiveAnalysisTable = require('./makePredictiveAnalysisTable');
 const fRead = fs.createReadStream(fileReadName);
+const fWrite = fs.createWriteStream(fWriteName);
 const productions = new Map();
 /*
  productions以map的数据结构存放产生式，key为产生式的左边符号，value为一个数组，每一个项中存放着一条产生式的右边符号
@@ -25,19 +27,20 @@ fRead.on('end', () => {
     enableWriteIndex = false;
     //console.log(productions);
     let ans = removeLeftRecursion(productions);
+    //console.log(ans);
     let finalProductions = [];
     for (let key of productions.keys()) {
         for (let item of productions.get(key)) {
            finalProductions.push( new Production(key,item));
         }
     }
-    //console.log(finalProductions);
-
-     let First = getFirstCollection(ans);
-     let Follow =  getFollowCollection(First, ans);
-     let map = makePredictiveAnalysisTable(First, Follow, finalProductions);
-     console.log(map);
-     // console.log(First);
+    // console.log(finalProductions);
+    // fWrite.write(JSON.stringify(finalProductions));
+    let First = getFirstCollection(ans);
+    let Follow =  getFollowCollection(First, ans);
+    let map = makePredictiveAnalysisTable(First, Follow, finalProductions);
+    //console.log(map);
+    fWrite.write(JSON.stringify(map));
 });
 let index = 1;
 
