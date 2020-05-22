@@ -2,8 +2,8 @@
 // let VT = ["if", "then", "end", "else", "repeat", "until", "identifier", ":=", "read", "write", "<", "=", "+", "-", "*", "/", "(", ")", "number", "ε", ";"];
 const tokenizer = require('./tokenizer');
 const makePredictiveAnalysisTable = require('./makePredictiveAnalysisTable');
-let {tokens, wrongFlag, wrongLocation} = tokenizer("id + id * id",0);
-//console.log(tokens);
+let {tokens, wrongFlag, wrongLocation} = tokenizer("id + id * id $",0);
+console.log(tokens);
 
 let productions = new Map();
 productions.set('E', [['T', "E'"]]);
@@ -16,7 +16,7 @@ First.set('E', ['(', 'identifier']);
 First.set("E'", ['+', 'ε']);
 First.set('T', ['(', 'identifier']);
 First.set("T'", ['*', 'ε']);
-First.set('F', ['(', '']);
+First.set('F', ['(', 'identifier']);
 First.set('*', ['*']);
 First.set(')', [')']);
 First.set('identifier', ['identifier']);
@@ -41,14 +41,13 @@ for (let key of productions.keys()) {
         finalProductions.push( new Production(key,item));
     }
 }
-
+//console.log(finalProductions);
 
 let table = makePredictiveAnalysisTable(First, Follow, finalProductions);
 console.log(table);
 
-
 let VN = ['E', "E'", "T'", 'T', 'F'];
-let VT = ['+', 'identifier', '(', ')', '*', '$', 'ε'];
+let VT = ['+', 'identifier', '(', ')', '*', '$'];
 let VNSet = new Set(VN);
 let VTSet = new Set(VT);
 function parse(tokens, map, productions) {
@@ -56,27 +55,36 @@ function parse(tokens, map, productions) {
     let ip = tokens[current];
     let stack = [];
     stack.push('$');
-    stack.push('program');
+    stack.push('E');
     let top = stack[stack.length-1]; // 获取栈顶元素
     while (top !== '$') {
+        console.log('stack1',stack);
+        console.log('top', top);
         if (ip.type === 'specialWord' || ip.type === 'reservedWord') {
             ip.type = ip.value;
+            //console.log('ip1', ip);
         }
-        if (top === ip.value) { // 如果栈顶元素就是输入带上所指向的元素
+        if (top === ip.type) { // 如果栈顶元素就是输入带上所指向的元素
+            console.log('ip', ip);
             ip = tokens[++current]; // ip向前移动一个位置
             stack.pop(); // 执行栈的弹出操作
-        } else if (VT.has(top)) {
+        } else if (VTSet.has(top)) {
+            console.log('top1', top);
             throw new Error(); // 抛出错误
         } else if (map[top][ip.type] === '#') {
             throw new Error(); // 抛出错误
         } else if (map[top][ip.type] !== '#') {
             let production = productions[map[top][ip.type]];
             stack.pop();
-            for (let i = production.value.length; i >= 0; i--) {
-                stack.push(production.value[i]);
+            for (let i = production.value.length - 1; i >= 0; i--) {
+                if (production.value[i] !== 'ε') {
+                    stack.push(production.value[i]);
+                }
             }
+            console.log('stack2',stack);
 
         }
         top = stack[stack.length-1];
     }
 }
+parse(tokens, table, finalProductions);

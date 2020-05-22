@@ -94,5 +94,9 @@ module.exports = function tokenizer(input, lineNumber) {
         wrongFlag = true;
         break;
     }
+    tokens.push({ // 手动添加终结符号
+        type:'$',
+        value: '$'
+    });
     return {tokens, wrongFlag, wrongLocation};
 };

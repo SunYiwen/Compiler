@@ -1,7 +1,7 @@
-let VN = ["program", "stmt-sequence", "statement", "if-stmt", "else-part'",  "repeat-stmt", "assign-stmt", "read-stmt", "write-stmt", "exp", "comparison-op", "simple-exp", "term", "addop", "factor", "mulop", "stmt-sequence'", "simple-exp'", "term'"];
-let VT = ["if", "then", "end", "else", "repeat", "until", "identifier", ":=", "read", "write", "<", "=", "+", "-", "*", "/", "(", ")", "number", "$", ";"];
-// let VN = ['E', "E'", "T'", 'T', 'F'];
-// let VT = ['+', 'identifier', '(', ')', '*', '$'];
+// let VN = ["program", "stmt-sequence", "statement", "if-stmt", "else-part'",  "repeat-stmt", "assign-stmt", "read-stmt", "write-stmt", "exp", "comparison-op", "simple-exp", "term", "addop", "factor", "mulop", "stmt-sequence'", "simple-exp'", "term'"];
+// let VT = ["if", "then", "end", "else", "repeat", "until", "identifier", ":=", "read", "write", "<", "=", "+", "-", "*", "/", "(", ")", "number", "$", ";"];
+let VN = ['E', "E'", "T'", 'T', 'F'];
+let VT = ['+', 'identifier', '(', ')', '*', '$'];
 /*
 构建预测分析表
  */
