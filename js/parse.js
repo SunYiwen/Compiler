@@ -1,8 +1,8 @@
-let VN = ["program", "stmt-sequence", "statement", "if-stmt", "else-part'",  "repeat-stmt", "assign-stmt", "read-stmt", "write-stmt", "exp", "comparison-op", "simple-exp", "term", "addop", "factor", "mulop", "stmt-sequence'", "simple-exp'", "term'"];
-let VT = ["if", "then", "end", "else", "repeat", "until", "identifier", ":=", "read", "write", "<", "=", "+", "-", "*", "/", "(", ")", "number", "ε", ";"];
+let VN = ["program", "stmt-sequence", "statement", "if-stmt", "else-part'",  "repeat-stmt", "assign-stmt", "read-stmt", "write-stmt", "exp", "comparison-op", "simple-exp", "term", "addop", "factor", "mulop", "stmt-sequence'", "simple-exp'", "term'", "cmp-exp'"];
+let VT = ["if", "then", "end", "else", "repeat", "until", "identifier", ":=", "read", "write", "<", "=", "+", "-", "*", "/", "(", ")", "number", "ε", ";", "$"];
 let VNSet = new Set(VN);
 let VTSet = new Set(VT);
-module.exports = function parse(tokens, map, productions) {
+function parse(tokens, map, productions) {
     let current = 0;
     let ip = tokens[current];
     let stack = [];
@@ -11,6 +11,9 @@ module.exports = function parse(tokens, map, productions) {
     let top = stack[stack.length-1]; // 获取栈顶元素
     while (top !== '$') {
         console.log('stack:',stack);
+        console.log('ip', ip);
+        console.log('ip.type', ip.type);
+        console.log('top', top);
         if (ip.type === 'specialWord' || ip.type === 'reservedWord') {
             ip.type = ip.value;
         }
@@ -34,4 +37,4 @@ module.exports = function parse(tokens, map, productions) {
         }
         top = stack[stack.length-1];
     }
-};
+}

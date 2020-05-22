@@ -1,13 +1,17 @@
 const readline = require('readline');
 const fs = require('fs');
 const fileReadName = './data/production.txt';
-const fWriteName = './data/table.json';
+const fWriteTableName = './data/table.json';
+const fWriteProductionsName = './data/productions.json';
+const fWriteProductionsNameTest = './data/productionsTest.json';
 const removeLeftRecursion = require('./removeLeftRecursion');
 const getFirstCollection = require('./getFirstCollection');
 const getFollowCollection = require('./getFollowCollection');
 const makePredictiveAnalysisTable = require('./makePredictiveAnalysisTable');
 const fRead = fs.createReadStream(fileReadName);
-const fWrite = fs.createWriteStream(fWriteName);
+const fWriteTable = fs.createWriteStream(fWriteTableName);
+const fWriteProductions = fs.createWriteStream(fWriteProductionsName);
+const fWriteProductionsTest = fs.createWriteStream(fWriteProductionsNameTest);
 const productions = new Map();
 /*
  productions以map的数据结构存放产生式，key为产生式的左边符号，value为一个数组，每一个项中存放着一条产生式的右边符号
@@ -25,22 +29,19 @@ let objReadline = readline.createInterface({
 let enableWriteIndex = true;
 fRead.on('end', () => {
     enableWriteIndex = false;
-    //console.log(productions);
     let ans = removeLeftRecursion(productions);
-    //console.log(ans);
     let finalProductions = [];
     for (let key of productions.keys()) {
         for (let item of productions.get(key)) {
            finalProductions.push( new Production(key,item));
         }
     }
-    // console.log(finalProductions);
-    // fWrite.write(JSON.stringify(finalProductions));
+    fWriteProductions.write(JSON.stringify(finalProductions));
+    fWriteProductionsTest.write(JSON.stringify({...finalProductions}));
     let First = getFirstCollection(ans);
     let Follow =  getFollowCollection(First, ans);
     let map = makePredictiveAnalysisTable(First, Follow, finalProductions);
-    //console.log(map);
-    fWrite.write(JSON.stringify(map));
+    fWriteTable.write(JSON.stringify(map));
 });
 let index = 1;
 

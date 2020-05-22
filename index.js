@@ -1,7 +1,7 @@
 const readline = require('readline');
 const fs = require('fs');
 const tokenizer = require('./tokenizer');
-const table = require('./data/table.json'); // 预测分析表
+const table = require('./data/table.json');
 const parser = require('./parse');
 const productions = require('./data/productions');
 const parse = require('./parse');
@@ -21,14 +21,12 @@ fRead.on('end', () => {
         type:'$',
         value: '$'
     });
-    //console.log(Tokens);
-    //console.log(table);
-    //console.log(productions);
-    parse(Tokens, table, productions);
-
+    console.log('wrongLines',wrongLines); // 输出错误的行号
+    parse(Tokens, table, productions); // 进行语法分析阶段，语法分词出粗直接抛出错误
 });
 let index = 1;
 let Tokens = [];
+let wrongLines = []; // 记录错误的行号
 
 objReadline.on('line', (line)=>{
     if (enableWriteIndex && line) { // 文件没有读完并且当前行不为空
@@ -38,14 +36,16 @@ objReadline.on('line', (line)=>{
             if (!wrongFlag) {
                 for (let token of tokens) {
                     Tokens.push(token);
-                    fWrite.write('\t' + index + ':' + token.type + ',' + token.value + '\n');
+                    // fWrite.write('\t' + index + ':' + token.type + ',' + token.value + '\n');
                 }
             } else {
-                fWrite.write('\t' + 'the' + wrongLocation + 'has wrong!!!' + '\n');
+                wrongLines.push(wrongLocation); // 将错误的位置放入错误行号的数组
+                // fWrite.write('\t' + 'the' + wrongLocation + 'has wrong!!!' + '\n');
             }
         } else {
             if (wrongFlag) {
-                fWrite.write('\t' + 'the ' + wrongLocation + ' has wrong!!!' + '\n');
+                wrongLines.push(wrongLocation); // 将错误的位置放入错误行号的数组
+                // fWrite.write('\t' + 'the ' + wrongLocation + ' has wrong!!!' + '\n');
             }
         }
         index++;

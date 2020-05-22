@@ -7,7 +7,6 @@ module.exports = function getFollowCollection(First, productions) {
         Follow.set(VN[i], [...getVNFollow(VN[i], First, productions)]);
     }
     return Follow;
-
 };
 function getVNFollow(VN, First, productions) {
     let Follow = new Set();
@@ -29,8 +28,6 @@ function getVNFollow(VN, First, productions) {
                     } else {
                         let begin = i + 1;
                         let firstSet = First.get(item[begin]);
-                        // console.log('item',item[begin]);
-                        // console.log('firstSet',firstSet);
                         while(begin < item.length ) {
                             let flag = false; // 判断集合中是否存在空元素
                             for (let first of firstSet) {
@@ -46,9 +43,7 @@ function getVNFollow(VN, First, productions) {
                             firstSet = First.get(item[++begin]);
                         }
                         if (begin === item.length) {
-                            //console.log('begin',begin);
                             firstSet = First.get(item[--begin]);
-                            //console.log('firstSet2',firstSet);
                             for (let first of firstSet) {
                                 if (first === 'ε') {
                                     let tempSet = getVNFollow(key, First, productions);
@@ -66,25 +61,3 @@ function getVNFollow(VN, First, productions) {
     }
     return Follow;
 }
-
-
-// let productions = new Map();
-// productions.set('E', [['T', "E'"]]);
-// productions.set("E'", [['+', 'T', "E'"], ['ε']]);
-// productions.set('T', [['F', "T'"]]);
-// productions.set("T'", [['*', 'F', "T'"], ['ε']]);
-// productions.set('F', [['(', 'E', ')'], ['a']]);
-//
-// let First = new Map();
-// First.set('E', ['(', 'a']);
-// First.set("E'", ['+', 'ε']);
-// First.set('T', ['(', 'a']);
-// First.set("T'", ['*', 'ε']);
-// First.set('F', ['(', 'a']);
-// First.set('*', ['*']);
-// First.set(')', [')']);
-// First.set('a', ['a']);
-// First.set('+', ['+']);
-// First.set('(', ['(']);
-// First.set('ε', ['ε']);
-// console.log(getVNFollow("F", First, productions));

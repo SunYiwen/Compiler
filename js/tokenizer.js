@@ -1,4 +1,4 @@
-module.exports = function tokenizer(input, lineNumber) {
+function tokenizer(input, lineNumber) {
     input += ' ';
     let current = 0; //单词缓冲区指针
     let tokens = [];
@@ -95,4 +95,4 @@ module.exports = function tokenizer(input, lineNumber) {
         break;
     }
     return { tokens, wrongFlag, wrongLocation };
-};
+}

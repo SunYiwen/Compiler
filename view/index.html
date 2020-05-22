@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css" type="text/css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <title>Tiny Lexical And Syntax </title>
+</head>
+<body>
+<div class="container">
+    <header>
+        <nav>
+            <h1>A tiny Lexical analysis and grammatical analysis</h1>
+        </nav>
+    </header>
+    <form>
+        <div class="form-group shrink-form">
+            <label for="exampleFormControlTextarea1" class="title">Input the test example:</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="8"></textarea>
+            <button type="button" class="btn btn-primary" id="execute_btn">Execute</button>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                        <th scope="col">Type</th>
+                    <th scope="col">Value</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+        </div>
+    </form>
+</div>
+<table class="table table-bordered" id="my_table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">if</th>
+        <th scope="col">then</th>
+        <th scope="col">end</th>
+        <th scope="col">else</th>
+        <th scope="col">repeat</th>
+        <th scope="col">until</th>
+        <th scope="col">identifier</th>
+        <th scope="col">:=</th>
+        <th scope="col">read</th>
+        <th scope="col">write</th>
+        <th scope="col"><</th>
+        <th scope="col">=</th>
+        <th scope="col">+</th>
+        <th scope="col">-</th>
+        <th scope="col">*</th>
+        <th scope="col">/</th>
+        <th scope="col">(</th>
+        <th scope="col">)</th>
+        <th scope="col">number</th>
+        <th scope="col">;</th>
+        <th scope="col">$</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+</body>
+<script src="../js/tokenizer.js"></script>
+<script src="../js/parse.js"></script>
+<script>
+    let Tokens = [];
+    let wrongLines = []; // 记录错误的行号
+    let btn = document.getElementById('execute_btn');
+    btn.onclick = function () {
+        let text = document.getElementsByTagName('textarea')[0].value.split('\n');
+        for (let i = 0; i < text.length ;i++) {
+            let { tokens, wrongFlag, wrongLocation } = tokenizer(text[i], i);
+            if (tokens.length !== 0) {
+                if (!wrongFlag) {
+                    for (let token of tokens) {
+                        Tokens.push(token);
+                    }
+                } else {
+                    wrongLines.push(wrongLocation); // 将错误的位置放入错误行号的数组
+                }
+            } else {
+                if (wrongFlag) {
+                    wrongLines.push(wrongLocation); // 将错误的位置放入错误行号的数组
+                }
+            }
+        }
+        for (let i = 0; i < Tokens.length; i++) {
+            let tr = document.createElement('tr');
+            let th = document.createElement('th');
+            th.setAttribute('scope', 'row');
+            th.innerText = i+1;
+            let td1 = document.createElement('td');
+            td1.innerText = Tokens[i].type;
+            let td2 = document.createElement('td');
+            td2.innerText = Tokens[i].value;
+            tr.appendChild(th);
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            document.getElementsByTagName('tbody')[0].appendChild(tr);
+        }
+        Tokens.push({ // 手动添加终结符号
+            type:'$',
+            value: '$'
+        });
+        parse(Tokens, map, productions);
+    };
+    //let VN = ["program", "stmt-sequence", "statement", "if-stmt", "else-part'",  "repeat-stmt", "assign-stmt", "read-stmt", "write-stmt", "exp", "comparison-op", "simple-exp", "term", "addop", "factor", "mulop", "stmt-sequence'", "simple-exp'", "term'", "cmp-exp'"];
+    let map = {};
+    for (let i = 0; i < VN.length; i++) {
+        let url = 'http://localhost:3001/' + VN[i];
+        fetch(url)
+            .then(function(response) {
+                response.json().then(function (data) {
+                    map[VN[i]] = data;
+                    let keys = Object.keys(data);
+                    let tr = document.createElement('tr');
+                    let th = document.createElement('th');
+                    th.setAttribute('scope', 'row');
+                    th.innerText = VN[i];
+                    tr.appendChild(th);
+                    for (let key of keys) {
+                        let td = document.createElement('td');
+                        if (data[key] === '#') {
+                            td.innerText = '';
+                        } else {
+                            td.innerText = data[key];
+                        }
+
+                        tr.appendChild(td);
+                    }
+                    document.getElementsByTagName('tbody')[1].appendChild(tr);
+                });
+            })
+    }
+    let productions = [];
+    for (let i = 0; i <= 34; i++) {
+        let url = 'http://localhost:3002/' + i;
+        fetch(url)
+        .then(function (response) {
+            response.json()
+            .then(function (data) {
+                productions.push(data);
+            })
+        })
+    }
+
+
+</script>
+</html>

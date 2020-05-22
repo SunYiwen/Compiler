@@ -1,0 +1,26 @@
+
+nav {
+    margin-top: 20px;
+    height: 60px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+h1 {
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+ul li a{
+    color: #4c566a;
+}
+.title {
+    font-size: 2em;
+    margin-top: 1em;
+    font-weight: normal;
+}
+.shrink-form {
+    margin: 0 auto;
+}
+#my_table {
+    width: 60%;
+    margin: 0 auto;
+}
