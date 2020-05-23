@@ -1,11 +1,11 @@
 {Test Token}
-if id = 0 then
-    read id;
-else
-    write(id);
-end;
-num := 20;
-错误 ^-^
-repeat
-    num := id - 1;
-until num<10;
+             if id = 0 then
+                 read id;
+             else
+                 write(id);
+             end;
+             num := 20;
+             错误 ^-^
+             repeat
+                 num := id - 1;
+             until num<10;
