@@ -1,11 +1,10 @@
 const readline = require('readline');
 const fs = require('fs');
 const tokenizer = require('./tokenizer');
-const table = require('./data/table.json');
-const parser = require('./parse');
-const productions = require('./data/productions');
+const table = require('./data/table.json'); // 获取预测分析表
+const productions = require('./data/productions'); // 读取产生式的数组序列
 const parse = require('./parse');
-const fileReadName = './data/data.txt';
+const fileReadName = './data/data.txt'; // 获取测试样本
 const fWriteName = './data/tokens.txt';
 const fRead = fs.createReadStream(fileReadName);
 const fWrite = fs.createWriteStream(fWriteName);
@@ -14,7 +13,9 @@ let objReadline = readline.createInterface({
     input: fRead,
     terminal: true
 });
-let enableWriteIndex = true;
+
+let enableWriteIndex = true; // 初始化行读取标志
+
 fRead.on('end', () => {
     enableWriteIndex = false;
     Tokens.push({ // 手动添加终结符号

@@ -11,9 +11,6 @@ function parse(tokens, map, productions) {
     let top = stack[stack.length-1]; // 获取栈顶元素
     while (top !== '$') {
         console.log('stack:',stack);
-        console.log('ip', ip);
-        console.log('ip.type', ip.type);
-        console.log('top', top);
         if (ip.type === 'specialWord' || ip.type === 'reservedWord') {
             ip.type = ip.value;
         }

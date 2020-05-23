@@ -12,7 +12,7 @@ const fRead = fs.createReadStream(fileReadName);
 const fWriteTable = fs.createWriteStream(fWriteTableName);
 const fWriteProductions = fs.createWriteStream(fWriteProductionsName);
 const fWriteProductionsTest = fs.createWriteStream(fWriteProductionsNameTest);
-const productions = new Map();
+let productions = new Map();
 /*
  productions以map的数据结构存放产生式，key为产生式的左边符号，value为一个数组，每一个项中存放着一条产生式的右边符号
  */
@@ -26,39 +26,27 @@ let objReadline = readline.createInterface({
     input: fRead,
     terminal: true
 });
+
 let enableWriteIndex = true;
+
 fRead.on('end', () => {
     enableWriteIndex = false;
-<<<<<<< HEAD
-    let ans = removeLeftRecursion(productions);
-    let finalProductions = [];
-=======
-    //console.log(productions);
-    let ans = removeLeftRecursion(productions); // productions是原本map格式的产生式
-    // console.log(ans);
+    productions = removeLeftRecursion(productions); // productions是原本map格式的产生式，更新为消除左递归后的产生式
     let finalProductions = []; // 数组格式的产生式
->>>>>>> e067b37c8e1cbb07e80e4405c3dc5e697ea7b822
     for (let key of productions.keys()) {
         for (let item of productions.get(key)) {
            finalProductions.push( new Production(key,item));
         }
     }
-<<<<<<< HEAD
-    fWriteProductions.write(JSON.stringify(finalProductions));
-    fWriteProductionsTest.write(JSON.stringify({...finalProductions}));
-    let First = getFirstCollection(ans);
-    let Follow =  getFollowCollection(First, ans);
-    let map = makePredictiveAnalysisTable(First, Follow, finalProductions);
-    fWriteTable.write(JSON.stringify(map));
-=======
-    // console.log(finalProductions);
-    // fWrite.write(JSON.stringify(finalProductions));
-    let First = getFirstCollection(ans); // First集合
-    let Follow =  getFollowCollection(First, ans); // Follow集合
+    //console.log(finalProductions);
+    fWriteProductionsTest.write(JSON.stringify({...finalProductions})); // 以json格式写入Test.json
+    fWriteProductions.write(JSON.stringify(finalProductions)); // 以数组的形式保存
+
+
+    let First = getFirstCollection(productions); // First集合
+    let Follow =  getFollowCollection(First, productions); // Follow集合
     let map = makePredictiveAnalysisTable(First, Follow, finalProductions); // 预测分析表
-    //console.log(map);
-    fWrite.write(JSON.stringify(map)); // 将构造预测分析表转化为json格式存入文本文件
->>>>>>> e067b37c8e1cbb07e80e4405c3dc5e697ea7b822
+    fWriteTable.write(JSON.stringify(map));
 });
 let index = 1;
 
