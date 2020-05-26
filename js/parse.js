@@ -3,6 +3,8 @@ let VT = ["if", "then", "end", "else", "repeat", "until", "identifier", ":=", "r
 let VNSet = new Set(VN);
 let VTSet = new Set(VT);
 function parse(tokens, map, productions) {
+    let successFlag = true;
+    let msg = '';
     let current = 0;
     let ip = tokens[current];
     let stack = [];
@@ -19,9 +21,15 @@ function parse(tokens, map, productions) {
             ip = tokens[++current]; // ip向前移动一个位置
             stack.pop(); // 执行栈的弹出操作
         } else if (VTSet.has(top)) {
-            throw new Error('cant match the vt'); // 抛出错误
+            successFlag = false;
+            msg = 'cant match the vt';
+            return { successFlag, msg };
+            //throw new Error('cant match the vt'); // 抛出错误
         } else if (map[top][ip.type] === '#') {
-            throw new Error('no match production'); // 抛出错误
+            successFlag = false;
+            msg = 'no match production';
+            return { successFlag, msg };
+            //throw new Error('no match production'); // 抛出错误
         } else if (map[top][ip.type] !== '#') {
             let production = productions[map[top][ip.type]];
             console.log('match rule', production);
@@ -34,4 +42,5 @@ function parse(tokens, map, productions) {
         }
         top = stack[stack.length-1];
     }
+    return {successFlag, msg};
 }

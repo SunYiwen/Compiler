@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css" type="text/css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
@@ -18,11 +17,7 @@
             <ul>
                 <li><a class="github-button" href="https://github.com/SunYiwen/Compiler/fork" data-icon="octicon-repo-forked" aria-label="Fork SunYiwen/Compiler on GitHub">Fork</a></li>
                 <li><a class="github-button" href="https://github.com/SunYiwen/Compiler" data-icon="octicon-star" aria-label="Star SunYiwen/Compiler on GitHub">Star</a></li>
-
             </ul>
-
-
-
         </nav>
     </header>
     <form>
@@ -30,9 +25,15 @@
             <label for="exampleFormControlTextarea1" class="title">Input the test example:</label>
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="8"></textarea>
             <button type="button" class="btn btn-primary" id="execute_btn">Execute</button>
+            <button type="button" class="btn btn-primary" id="clear_btn">Clear</button>
             <br/>
             <br/>
-            <div class="warning">hhhhh</div>
+            <div class="alert alert-danger warning" role="alert">
+                Wating for tokenizer ...
+            </div>
+            <div class="alert alert-primary danger" role="alert">
+                Wating for parse ...
+            </div>
             <table class="table">
                 <thead>
                 <tr>
@@ -84,8 +85,9 @@
 <script>
     let Tokens = [];
     let wrongLines = []; // 记录错误的行号
-    let btn = document.getElementById('execute_btn');
-    btn.onclick = function () {
+    let wrongFlag = false;
+    let btn1 = document.getElementById('execute_btn');
+    btn1.onclick = function () {
         Tokens = [];
         let text = document.getElementsByTagName('textarea')[0].value.split('\n');
         for (let i = 0; i < text.length ;i++) {
@@ -122,8 +124,28 @@
             type:'$',
             value: '$'
         });
+        if (wrongLines.length === 0) {
+            document.getElementsByClassName('warning')[0].innerText = "Tokens has no Error!";
+        } else {
+            document.getElementsByClassName('warning')[0].innerText = "The " + wrongLines + " has Error!";
+        }
 
-        parse(Tokens, map, productions);
+
+        let {successFlag, msg} = parse(Tokens, map, productions);
+        if (!successFlag) {
+            document.getElementsByClassName('danger')[0].innerText = msg;
+        } else {
+            document.getElementsByClassName('danger')[0].innerText = 'Match Successfully! ✧*｡٩(ˊᗜˋ*)و✧*｡'
+        }
+
+    };
+    let btn2 = document.getElementById('clear_btn');
+    btn2.onclick = function() {
+        document.getElementById('exampleFormControlTextarea1').value = '';
+        document.getElementsByTagName('tbody')[0].innerHTML = '';
+        document.getElementsByClassName('warning')[0].innerText = 'Wating for tokenizer ...';
+        document.getElementsByClassName('danger')[0].innerHTML = ' Wating for parse ...';
+        wrongLines = [];
     };
     //let VN = ["program", "stmt-sequence", "statement", "if-stmt", "else-part'",  "repeat-stmt", "assign-stmt", "read-stmt", "write-stmt", "exp", "comparison-op", "simple-exp", "term", "addop", "factor", "mulop", "stmt-sequence'", "simple-exp'", "term'", "cmp-exp'"];
     let map = {};
