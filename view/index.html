@@ -29,10 +29,10 @@
             <br/>
             <br/>
             <div class="alert alert-danger warning" role="alert">
-                Wating for tokenizer ...
+                Wating for tokenizering ...
             </div>
             <div class="alert alert-primary danger" role="alert">
-                Wating for parse ...
+                Wating for parsing ...
             </div>
             <table class="table">
                 <thead>
@@ -45,7 +45,6 @@
                 <tbody>
                 </tbody>
             </table>
-
         </div>
     </form>
 </div>
@@ -85,7 +84,6 @@
 <script>
     let Tokens = [];
     let wrongLines = []; // 记录错误的行号
-    let wrongFlag = false;
     let btn1 = document.getElementById('execute_btn');
     btn1.onclick = function () {
         Tokens = [];
@@ -143,8 +141,8 @@
     btn2.onclick = function() {
         document.getElementById('exampleFormControlTextarea1').value = '';
         document.getElementsByTagName('tbody')[0].innerHTML = '';
-        document.getElementsByClassName('warning')[0].innerText = 'Wating for tokenizer ...';
-        document.getElementsByClassName('danger')[0].innerHTML = ' Wating for parse ...';
+        document.getElementsByClassName('warning')[0].innerText = 'Wating for tokenizering ...';
+        document.getElementsByClassName('danger')[0].innerHTML = ' Wating for parsing ...';
         wrongLines = [];
     };
     //let VN = ["program", "stmt-sequence", "statement", "if-stmt", "else-part'",  "repeat-stmt", "assign-stmt", "read-stmt", "write-stmt", "exp", "comparison-op", "simple-exp", "term", "addop", "factor", "mulop", "stmt-sequence'", "simple-exp'", "term'", "cmp-exp'"];
@@ -186,7 +184,5 @@
             })
         })
     }
-
-
 </script>
 </html>

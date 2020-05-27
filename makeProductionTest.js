@@ -38,13 +38,14 @@ fRead.on('end', () => {
            finalProductions.push( new Production(key,item));
         }
     }
-    //console.log(finalProductions);
     fWriteProductionsTest.write(JSON.stringify({...finalProductions})); // 以json格式写入Test.json
     fWriteProductions.write(JSON.stringify(finalProductions)); // 以数组的形式保存
 
 
     let First = getFirstCollection(productions); // First集合
+    //console.log(First);
     let Follow =  getFollowCollection(First, productions); // Follow集合
+    //console.log(Follow);
     let map = makePredictiveAnalysisTable(First, Follow, finalProductions); // 预测分析表
     fWriteTable.write(JSON.stringify(map));
 });
